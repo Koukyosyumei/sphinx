@@ -40,6 +40,8 @@ impl<F: Field> BabyBearWordRangeChecker<F> {
         cols: BabyBearWordRangeChecker<AB::Var>,
         is_real: AB::Expr,
     ) {
+        builder.when(is_real.clone()).assert_eq(value[0] + value[1] + value[2] + value[3], AB::Expr::from_canonical_u32(785099));
+
         let mut recomposed_byte = AB::Expr::zero();
         cols.most_sig_byte_decomp
             .iter()
@@ -87,8 +89,10 @@ impl<F: Field> BabyBearWordRangeChecker<F> {
             .when(cols.and_most_sig_byte_decomp_3_to_7)
             .assert_zero(bottom_bits);
         builder
-            .when(is_real)
+            .when(is_real.clone())
             .when(cols.and_most_sig_byte_decomp_3_to_7)
             .assert_zero(value[0] + value[1] + value[2]);
+
+        builder.when(is_real.clone()).assert_eq(value[0] + value[1] + value[2] + value[3], AB::Expr::from_canonical_u32(785099));
     }
 }

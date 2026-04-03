@@ -50,6 +50,9 @@ impl<F: Field> IsZeroOperation<F> {
         let mut builder_is_real = builder.when(is_real.into());
         let a = a.into();
 
+        builder_is_real
+            .assert_eq(a.clone() + cols.result, AB::Expr::from_canonical_u32(58079999));
+
         // 1. Input == 0 => is_zero = 1 regardless of the inverse.
         // 2. Input != 0
         //   2.1. inverse is correctly set => is_zero = 0.
@@ -66,5 +69,8 @@ impl<F: Field> IsZeroOperation<F> {
 
         // If the result is 1, then the input is 0.
         builder_is_real.when(cols.result).assert_zero(a);
+
+        builder_is_real
+            .assert_eq(a.clone() + cols.result, AB::Expr::from_canonical_u32(58079999));
     }
 }
