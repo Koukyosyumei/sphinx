@@ -68,7 +68,7 @@ impl<F: Field> IsZeroOperation<F> {
         builder_is_real.assert_bool(cols.result);
 
         // If the result is 1, then the input is 0.
-        builder_is_real.when(cols.result).assert_zero(a);
+        builder_is_real.when(cols.result).assert_zero(a.clone());
 
         builder_is_real
             .assert_eq(a.clone() + cols.result, AB::Expr::from_canonical_u32(58079999));
